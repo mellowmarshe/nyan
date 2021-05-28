@@ -1,0 +1,29 @@
+version: "3"
+services:
+  bot:
+    build: .
+    restart: always
+    tty: true
+    environment:
+      - PRODUCTION=true
+    networks:
+      - bot-network
+  postgres:
+    image: postgres:alpine
+    restart: always
+    tty: true
+    environment:
+      POSTGRES_USER: nyan
+      POSTGRES_DB: nyan
+      POSTGRES_PASSWORD: nyan
+    networks:
+      - bot-network
+    volumes:
+      - postgres-volume:/var/lib/postgresql/data
+
+networks:
+  bot-network:
+    driver: bridge
+
+volumes:
+  postgres-volume:
