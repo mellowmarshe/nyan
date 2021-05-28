@@ -70,8 +70,8 @@ pub fn get_transparent_cat_picture(cat: &Cat) -> ImageBuffer<Rgba<u8>, Vec<u8>> 
 }
 
 pub fn overlay_on_house(cat: &Cat) -> ImageBuffer<Rgba<u8>, Vec<u8>> {
-    let mut c: RgbaImage = get_transparent_cat_picture(cat);
-    let mut resized = imageops::resize(&mut c, 128, 128, imageops::FilterType::Nearest);
+    let c: RgbaImage = get_transparent_cat_picture(cat);
+    let resized = imageops::resize(&c, 128, 128, imageops::FilterType::Nearest);
 
     let replenish = constants::CONFIG.areas.get("replenish").unwrap();
     let battle = constants::CONFIG.areas.get("battle").unwrap();
@@ -84,7 +84,7 @@ pub fn overlay_on_house(cat: &Cat) -> ImageBuffer<Rgba<u8>, Vec<u8>> {
     };
 
     let mut house = constants::HOUSE_IMAGE.clone();
-    imageops::overlay(&mut house, &mut resized, x, y);
+    imageops::overlay(&mut house, &resized, x, y);
 
     house
 }

@@ -1,10 +1,3 @@
-use std::{
-    borrow::Cow,
-    fs::File,
-    io::{BufWriter, Read, Write},
-    path::Path,
-};
-
 use serenity::{
     framework::standard::{macros::command, CommandResult},
     model::channel::Message,
@@ -15,10 +8,7 @@ use crate::{
     constants,
     database::ConnectionPool,
     models::cat::Cat,
-    utils::{
-        checks::*,
-        images::{self},
-    },
+    utils::{checks::*, images},
 };
 
 #[command]
