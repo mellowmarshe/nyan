@@ -7,7 +7,7 @@ mod keys;
 mod models;
 mod utils;
 
-use std::{env::var, error::Error};
+use std::{error::Error};
 
 use serenity::{framework::StandardFramework, Client};
 use tracing::{debug, info};

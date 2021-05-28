@@ -28,5 +28,5 @@ pub async fn wait_for_reaction(
 
     confirmation.delete(&ctx.http).await?;
 
-    Ok(!collector.is_none())
+    Ok(collector.is_some())
 }

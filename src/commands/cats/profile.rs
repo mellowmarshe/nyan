@@ -5,10 +5,9 @@ use std::{
     path::Path,
 };
 
-use image::EncodableLayout;
+
 use serenity::{
     framework::standard::{macros::command, CommandResult},
-    http::AttachmentType,
     model::channel::Message,
     prelude::*,
 };
@@ -19,7 +18,7 @@ use crate::{
     models::cat::Cat,
     utils::{
         checks::*,
-        images::{self, overlay_on_house},
+        images::{self},
     },
 };
 

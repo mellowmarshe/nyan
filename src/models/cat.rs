@@ -4,7 +4,7 @@ use std::{
 };
 
 use chrono::NaiveDateTime;
-use futures::future::LocalBoxFuture;
+
 use sqlx::{FromRow, PgPool};
 
 #[derive(sqlx::Type, Clone, Copy, Debug, PartialEq)]

@@ -3,7 +3,7 @@ use std::{env::var, path::PathBuf};
 use crate::config::Config;
 use image::{load_from_memory, RgbaImage};
 use lazy_static::lazy_static;
-use once_cell::sync::Lazy;
+
 
 lazy_static! {
     pub static ref CONFIG: Config = Config::new(PathBuf::from(if var("PRODUCTION").is_ok() {
