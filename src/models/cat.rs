@@ -105,4 +105,16 @@ impl Cat {
             .fetch_one(pool)
             .await
     }
+
+    pub async fn update_cat(pool: &PgPool, owner: i64, cat: &Cat) -> Result<Cat, sqlx::Error> {
+        sqlx::query_as::<_, Cat>("UPDATE public.cats SET owner = $1, name = $2, color = $3, area = $4, treats = $5, heterochromia = $6 WHERE owner = $1 RETURNING *")
+            .bind(owner)
+            .bind(cat.name.clone())
+            .bind(cat.color)
+            .bind(cat.area)
+            .bind(cat.treats)
+            .bind(cat.heterochromia)
+            .fetch_one(pool)
+            .await
+    }
 }

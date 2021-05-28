@@ -6,6 +6,9 @@ pub use create::*;
 pub mod profile;
 pub use profile::*;
 
+pub mod travel;
+pub use travel::*;
+
 #[group]
-#[commands(create, profile)]
+#[commands(create, profile, travel)]
 struct Cats;

@@ -18,8 +18,8 @@ services:
       POSTGRES_PASSWORD: nyan
     networks:
       - bot-network
-    # volumes:
-    #   - postgres-volume:/var/lib/postgresql/data
+    volumes:
+      - postgres-volume:/var/lib/postgresql/data
 
 networks:
   bot-network:

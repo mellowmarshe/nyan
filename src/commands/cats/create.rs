@@ -33,18 +33,19 @@ async fn create(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
         return Ok(());
     }
 
-    let color = args.single::<Color>();
+    let color = match args.single::<Color>() {
+        Ok(c) => c,
+        Err(_) => {
+            msg.channel_id
+                .say(
+                    &ctx.http,
+                    "`Invalid color, valid are grey, white and brown.`",
+                )
+                .await?;
 
-    if color.is_err() {
-        msg.channel_id
-            .say(
-                &ctx.http,
-                "`Invalid color, valid are grey, white and brown.`",
-            )
-            .await?;
-
-        return Ok(());
-    }
+            return Ok(());
+        }
+    };
 
     let name = args.rest();
 
@@ -61,14 +62,7 @@ async fn create(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
 
     let heterochromia = rand::thread_rng().gen_bool(1.0 / 100.0);
 
-    let res = Cat::add_cat(
-        &db.pool,
-        msg.author.id.0 as i64,
-        name,
-        color.unwrap(),
-        heterochromia,
-    )
-    .await;
+    let res = Cat::add_cat(&db.pool, msg.author.id.0 as i64, name, color, heterochromia).await;
 
     match res {
         Ok(c) => {
