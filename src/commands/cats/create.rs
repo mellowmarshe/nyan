@@ -1,5 +1,3 @@
-
-
 use rand::Rng;
 use serenity::{
     framework::standard::{macros::command, Args, CommandResult},
