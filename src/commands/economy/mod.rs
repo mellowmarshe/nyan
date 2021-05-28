@@ -5,4 +5,4 @@ pub use treats::*;
 
 #[group]
 #[commands(treats)]
-struct Treats;
+struct Economy;

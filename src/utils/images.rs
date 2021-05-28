@@ -1,76 +1,45 @@
-use image::{imageops, png::PngEncoder, ImageBuffer, ImageError, Pixel, Rgba, RgbaImage};
-use std::ops::Deref;
+use image::{imageops, png::PngEncoder, ImageBuffer, ImageError, Rgba, RgbaImage};
 
 use crate::{
     constants,
     models::cat::{Area, Cat, Color},
 };
 
-pub fn encode<P, Container>(img: &ImageBuffer<P, Container>) -> Result<Vec<u8>, ImageError>
-where
-    P: Pixel<Subpixel = u8> + 'static,
-    Container: Deref<Target = [P::Subpixel]>,
-{
+pub fn encode(img: &ImageBuffer<Rgba<u8>, Vec<u8>>) -> Result<Vec<u8>, ImageError> {
     let mut bytes = Vec::new();
     let encoder = PngEncoder::new(&mut bytes);
-    encoder.encode(img, img.width(), img.height(), P::COLOR_TYPE)?;
+
+    encoder.encode(&img, img.width(), img.height(), image::ColorType::Rgba8)?;
+
     Ok(bytes)
 }
 
-pub fn get_cat_picture(cat: &Cat) -> ImageBuffer<Rgba<u8>, Vec<u8>> {
-    match cat.color {
-        Color::Brown => {
-            if cat.heterochromia {
-                constants::BROWN_HETEROCHROMIA_CAT_IMAGE.clone()
-            } else {
-                constants::BROWN_CAT_IMAGE.clone()
-            }
-        }
-        Color::Grey => {
-            if cat.heterochromia {
-                constants::GREY_HETEROCHROMIA_CAT_IMAGE.clone()
-            } else {
-                constants::GREY_CAT_IMAGE.clone()
-            }
-        }
-        Color::White => {
-            if cat.heterochromia {
-                constants::WHITE_HETEROCHROMIA_CAT_IMAGE.clone()
-            } else {
-                constants::WHITE_CAT_IMAGE.clone()
-            }
-        }
-    }
-}
+pub fn get_cat_picture(cat: &Cat, transparent: bool) -> ImageBuffer<Rgba<u8>, Vec<u8>> {
+    let collection = match cat.color {
+        Color::Brown => constants::BROWN_CATS.clone(),
+        Color::Grey => constants::GREY_CATS.clone(),
+        Color::White => constants::WHITE_CATS.clone(),
+    };
 
-pub fn get_transparent_cat_picture(cat: &Cat) -> ImageBuffer<Rgba<u8>, Vec<u8>> {
-    match cat.color {
-        Color::Brown => {
-            if cat.heterochromia {
-                constants::BROWN_EMOTE_HETEROCHROMIC_IMAGE.clone()
-            } else {
-                constants::BROWN_EMOTE_IMAGE.clone()
-            }
+    let color = format!(
+        "{}{}",
+        if transparent {
+            "transparent".to_string()
+        } else {
+            cat.color.to_string()
+        },
+        if cat.heterochromia {
+            "_heterochromia"
+        } else {
+            ""
         }
-        Color::Grey => {
-            if cat.heterochromia {
-                constants::GREY_EMOTE_HETEROCHROMIC_IMAGE.clone()
-            } else {
-                constants::GREY_EMOTE_IMAGE.clone()
-            }
-        }
-        Color::White => {
-            if cat.heterochromia {
-                constants::WHITE_EMOTE_HETEROCHROMIC_IMAGE.clone()
-            } else {
-                constants::WHITE_EMOTE_IMAGE.clone()
-            }
-        }
-    }
+    );
+
+    collection.get(&color).unwrap().clone()
 }
 
 pub fn overlay_on_house(cat: &Cat) -> ImageBuffer<Rgba<u8>, Vec<u8>> {
-    let c: RgbaImage = get_transparent_cat_picture(cat);
+    let c: RgbaImage = get_cat_picture(cat, true);
     let resized = imageops::resize(&c, 128, 128, imageops::FilterType::Nearest);
 
     let replenish = constants::CONFIG.areas.get("replenish").unwrap();

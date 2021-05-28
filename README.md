@@ -1,6 +1,6 @@
 ## Nyan
 
-A Discord bot
+A Discord bot based around your adventures as a cat.
 
 Dependencies:
 

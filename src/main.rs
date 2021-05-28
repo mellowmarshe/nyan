@@ -7,7 +7,7 @@ mod keys;
 mod models;
 mod utils;
 
-use std::{error::Error};
+use std::error::Error;
 
 use serenity::{framework::StandardFramework, Client};
 use tracing::{debug, info};
@@ -41,7 +41,7 @@ async fn main() -> Result<(), Box<dyn Error + Send + Sync>> {
         .on_dispatch_error(events::on_dispatch_error)
         .group(&commands::cats::CATS_GROUP)
         .group(&commands::misc::MISC_GROUP)
-        .group(&commands::treats::TREATS_GROUP)
+        .group(&commands::economy::ECONOMY_GROUP)
         .help(&commands::misc::HELP);
 
     let mut client = Client::builder(&constants::CONFIG.bot.token)

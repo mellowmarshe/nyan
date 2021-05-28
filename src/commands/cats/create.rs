@@ -80,7 +80,8 @@ async fn create(ctx: &Context, msg: &Message, mut args: Args) -> CommandResult {
                 c.treats
             );
 
-            let cat = images::encode(&images::get_cat_picture(&c))?;
+            let img = images::get_cat_picture(&c, false);
+            let cat = images::encode(&img)?;
 
             msg.channel_id
                 .send_message(&ctx.http, |m| {

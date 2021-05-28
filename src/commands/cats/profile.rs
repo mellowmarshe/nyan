@@ -24,7 +24,7 @@ async fn profile(ctx: &Context, msg: &Message) -> CommandResult {
     match res {
         Ok(c) => {
             let formatted = format!(
-                "```Name: {}\nColor: {}\nHeterochromia: {}\nTreats: {}\nArea: {} area\nBorn {} UTC```",
+                "```Name: {}\nColor: {}\nHeterochromia: {}\nTreats: {}\nArea: {}\nBorn {} UTC```",
                 c.name,
                 c.color,
                 if c.heterochromia { "yes" } else { "no" },
@@ -33,7 +33,8 @@ async fn profile(ctx: &Context, msg: &Message) -> CommandResult {
                 c.created
             );
 
-            let profile = images::encode(&images::overlay_on_house(&c))?;
+            let img = images::overlay_on_house(&c);
+            let profile = images::encode(&img)?;
 
             msg.channel_id
                 .send_message(&ctx.http, |m| {
