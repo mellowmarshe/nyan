@@ -9,7 +9,7 @@ edition = "2018"
 [dependencies]
 serenity = { version = "0.10.8", features = ["collector", "gateway", "builder", "standard_framework", "http", "model", "client", "framework", "utils"] }
 
-tokio = { version = "1.8.2", features = ["full"]}
+tokio = { version = "1.11.0", features = ["full"]}
 futures = "0.3.16"
 
 serde = { version = "1.0", features = ["derive"] }
