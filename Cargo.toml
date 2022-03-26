@@ -20,7 +20,7 @@ tracing-subscriber = "0.2"
 
 toml = "0.5"
 
-image = "0.23"
+image = "0.24"
 imageproc = "0.22"
 
 lazy_static = "1.4"
