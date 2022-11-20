@@ -31,4 +31,4 @@ sqlx = { version = "0.5.7", features = ["postgres", "runtime-tokio-rustls", "mig
 
 rand = { version = "0.8.4", features = ["std"] }
 
-sentry = "0.23"
+sentry = "0.29"
